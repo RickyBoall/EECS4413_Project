@@ -1,3 +1,3 @@
 export {default as Home} from './Home';
-export {default as Page1} from './Page1'; 
+export {default as CatalogPage} from './CatalogPage'; 
 export {default as Page2} from './Page2'; 
