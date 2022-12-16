@@ -6,21 +6,39 @@ export default function CatalogPage({ cart, setCart }) {
         {
             "id": 4,
             "name": "Blackberry",
+            "category": "Fruits",
             "available": true,
             "price": 6.69 
         },
         {
             "id": 5,
             "name": "Blueberry",
+            "category": "Fruits",
             "available": false,
             "price": 7.69 
         },
         {
             "id": 6,
+            "name": "Pumkpin Pie",
+            "category": "Baked Goods",
+            "available": true,
+            "price": 7.99
+        },
+        {
+            "id": 6,
             "name": "Strawberry",
+            "category": "Fruits",
             "available": true,
             "price": 8.69 
         },
+        {
+            "id": 6,
+            "name": "Bread",
+            "category": "Baked Goods",
+            "available": true,
+            "price": 3.99
+        },
+        
     ])
     return (
         <div  className="h-screen flex flex-col bg-gray-800">

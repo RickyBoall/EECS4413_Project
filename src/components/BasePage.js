@@ -17,7 +17,7 @@ const StyledAutocomplete = styled(Autocomplete) ({
       }
 })
 
-export default function BasePage({ cart, setCart }) {
+export default function BasePage({ cart, setCart, notLoggedIn }) {
     const [items, setItems] = useState([
         {
             "id": 4,
@@ -47,6 +47,7 @@ export default function BasePage({ cart, setCart }) {
         })
         setItemNames(nameArr)
     }, [])
+    
     return (
         <div>
             <div className="flex px-10 py-5">
@@ -55,21 +56,35 @@ export default function BasePage({ cart, setCart }) {
                     <h4 className="text-white font-semibold">Name Of Store</h4>
                 </div>
                 <div className="flex ml-8">
-                    <StyledAutocomplete sx={{ width: 300 }} options={itemNames} renderInput={(params) => <TextField {...params} label={<p style={{ "color" : "white" }}> Search... </p>} />} />
+                    <p className="text-white"> Current User: SOMEONE </p>
+                </div>
+                <div className="absolute mr-8 right-0">
+                    {notLoggedIn ?
+                        null
+                    :
+                        <Button onClick={() => {window.localStorage.removeItem('user'); window.location.reload();}}> Logout </Button>
+                    }
+                    {/* <StyledAutocomplete sx={{ width: 300 }} options={itemNames} renderInput={(params) => <TextField {...params} label={<p style={{ "color" : "white" }}> Search... </p>} />} /> */}
                 </div>
             </div>
             <div className="flex items-center px-10 h-14 bg-gray-600 w-full justify-between">
-                <div></div>
-                <div className="">
-                    <Link to="/home"> Home </Link>
-                </div>
-                <div className="">
-                    <Link to="/catalog"> Store Catalog </Link>
-                </div>
-                <div className="">
-                    <Link to="/cart"> Cart ({cart.length}) </Link>
-                </div>
-                <div></div>
+                {notLoggedIn ?
+                    null
+                :
+                <>
+                    <div></div>
+                    <div className="">
+                        <Link to="/home"> Home </Link>
+                    </div>
+                    <div className="">
+                        <Link to="/catalog"> Store Catalog </Link>
+                    </div>
+                    <div className="">
+                        <Link to="/cart"> Cart ({cart.length}) </Link>
+                    </div>
+                    <div></div>
+                </>
+                }
             </div>
         </div>
     )
