@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { BasePage } from "../components";
 import {
@@ -57,7 +58,7 @@ export default function OrderPage({ cart, setCart }) {
     // console.log(data);
     // console.log();
     let userID = JSON.parse(localStorage.getItem("user"))["id"];
-    let responseData = await createOrder(data, 9);
+    let responseData = await createOrder(data, userID);
 
     if (responseData != null) {
       try {
@@ -76,7 +77,11 @@ export default function OrderPage({ cart, setCart }) {
       {/* <ItemsList storeItems={items} cart={cart} setCart={(e) => setCart(e)} /> */}
 
       <Container style={{ marginTop: "30px" }}>
-        <div className="site-card-wrapper">
+        <Link to="/allorders">
+          <Button style={{ color: "white" }}>View Past Orders</Button>
+        </Link>
+
+        <div className="site-card-wrapper" style={{ marginTop: "30px" }}>
           <Row gutter={16}>
             <Col span={12}>
               <Card title="Total">
