@@ -1,7 +1,7 @@
 import React from "react";
 import { BasePage } from "../components";
 
-export default function Page2({ cart, setCart }) {
+export default function CartPage({ cart, setCart }) {
 
     return (
         <div className="h-screen flex flex-col bg-gray-800">

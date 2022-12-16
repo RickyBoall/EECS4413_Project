@@ -25,6 +25,7 @@ const StyledTextField = styled(TextField) ({
 })
 
 export default function ItemsList({ storeItems, cart, setCart }) {
+    // console.log(storeItems)
     const [items, setItems] = useState(storeItems);
     const [quantities, setQuantities] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
@@ -33,15 +34,48 @@ export default function ItemsList({ storeItems, cart, setCart }) {
 
     useEffect(() => {
         let tempArr = [];
+        let itemsArr = [];
         storeItems.map((item) => {
-            tempArr.push(0);
+            if (item['cartQuantity'] === undefined) {
+                tempArr.push(0);
+            } else {
+                tempArr.push(item['cartQuantity']);
+            }
         })
+        // console.log(tempArr);
         setQuantities(tempArr);
     }, [])
 
     const addToCart = (item, index) => {
-        item['cartQuantity'] = quantities[index]
-        setCart([...cart, item])
+        let cartArr = [];
+        let inArr = false;
+        let error = false;
+        if (quantities[index] > item.quantity) {
+            alert('Error: Current quantity selected is above the amount available. Please check your cart and try again.');
+            return
+        }
+        cart.map((cartItem) => {
+            if(cartItem.name === item.name) {
+                if (cartItem['cartQuantity'] + quantities[index] > item.quantity) {
+                    alert('Error: Current quantity selected is above the amount available. Please check your cart and try again.');
+                    error = true
+                    return
+                }
+                cartItem['cartQuantity'] += quantities[index];
+                cartArr.push(cartItem);
+                inArr = true;
+            } else {
+                cartArr.push(cartItem);
+            }
+        })
+        if (error === false) {
+            if (inArr === false) {
+                item['cartQuantity'] = quantities[index];
+                setCart([...cartArr, item]);
+            } else {
+                setCart([...cartArr]);
+            }
+        }
     }
 
     const changeQuantity = (quantity, index) => {
@@ -50,7 +84,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
             quantity = 0;
         }
         tempArr[index] = parseInt(quantity);
-        console.log(quantity)
+        // console.log(quantity)
         setQuantities([...tempArr]);
     }
 
@@ -60,10 +94,10 @@ export default function ItemsList({ storeItems, cart, setCart }) {
         return (a < b) ? -1 : (a > b) ? 1 : 0;
     }
 
-    const sortItemCategories = () => {
+    const sortItemTypes = () => {
         let newArr = items;
         newArr.sort(function(a, b) {
-            return compareStrings(a.category, b.category);
+            return compareStrings(a.type, b.type);
         })
         setItems([...newArr])
     }
@@ -76,7 +110,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                         <FormLabel> <p className="text-white border-b-4 border-black">Filters</p> </FormLabel>
                         <RadioGroup>
                             <FormControlLabel value="all" control={<Radio onClick={() => setItems([...originalItemsArr])} />} label={<p className="text-white"> All </p>} />
-                            <FormControlLabel value="categories" control={<Radio onClick={() => sortItemCategories()} />} label={<p className="text-white"> Categories </p>} />
+                            <FormControlLabel value="types" control={<Radio onClick={() => sortItemTypes()} />} label={<p className="text-white"> Types </p>} />
                             {/* <FormControlLabel value="Brand?" /> */}
                         </RadioGroup>
                     </FormControl>
@@ -93,36 +127,33 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                         <p> Name </p> 
                     </div>
                     <div className="col-start-3 col-span-1 border-b-4 border-black">
-                        <p> Category </p> 
+                        <p> Type </p> 
                     </div>
                     <div className="col-start-4 col-span-1 border-b-4 border-black">
                         <p> Price </p> 
                     </div>
                     <div className="col-start-5 col-span-1 border-b-4 border-black">
-                        <p> Available </p> 
+                        <p> Quantity Available </p> 
                     </div>
                     <div className="col-span-2 border-b-4 border-black">
                         <p> Quantity </p>
                     </div>
-                    
+                    <button onClick={() => console.log(items)}> alsdan</button>
                     {items.map((item, index) => {
+                        // console.log(item)
                         return (
                             <>
                                 <div className="col-start-2 col-span-1 py-4">
                                     <button onClick={() => {setSelectedItem(item); setModalOpen(true)}}> {item.name} </button> 
                                 </div>
                                 <div className="col-start-3 col-span-1 py-4">
-                                    <p> {item.category} </p> 
+                                    <p> {item.type} </p> 
                                 </div>
                                 <div className="col-start-4 col-span-1 py-4">
                                     <p> {item.price} </p> 
                                 </div>
                                 <div className="col-start-5 col-span-1 py-4">
-                                    {item.available ?
-                                        <p> ✓ </p>
-                                    :
-                                        <p> X </p>
-                                    }
+                                    <p> {item.quantity} </p>
                                 </div>
                                 <div className="flex col-span-2">
                                     <StyledTextField value={quantities[index]} onChange={(e) => changeQuantity(e.target.value, index)} />
@@ -131,7 +162,6 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                                     </div>
 
                                 </div>
-                                {/* <button onClick={() => console.log(cart)}> asdkjsa</button> */}
                             </>
                         )
                     })}

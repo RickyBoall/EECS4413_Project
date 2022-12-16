@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {Home, CatalogPage, Page2, LoginPage} from './pages';
+import {Home, CatalogPage, CartPage, LoginPage} from './pages';
 // import Home from './pages/Home';
 
 function App() {
@@ -22,13 +22,15 @@ function App() {
   return (
     <BrowserRouter basename="/">
       <Routes>
-        <Route path="/catalog" element={<CatalogPage cart={cart} setCart={(e) => setCart(e)} />} />
-        <Route path="/cart" element={<Page2 cart={cart} setCart={(e) => setCart(e)} />} />
         {loggedIn ? 
-        <Route path="*" element={<Home cart={cart} setCart={(e) => setCart(e)}/>} />
-        :
-        <Route path="*" element={<LoginPage/>} />        
-      }
+          <>
+            <Route path="*" element={<Home cart={cart} setCart={(e) => setCart(e)}/>} />
+            <Route path="/catalog" element={<CatalogPage cart={cart} setCart={(e) => setCart(e)} />} />
+            <Route path="/cart" element={<CartPage cart={cart} setCart={(e) => setCart(e)} />} />
+          </>
+          :
+          <Route path="*" element={<LoginPage/>} />        
+        }
       </Routes>
     </BrowserRouter>
   );

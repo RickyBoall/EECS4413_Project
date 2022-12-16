@@ -39,6 +39,10 @@ export default function BasePage({ cart, setCart, notLoggedIn }) {
         },
     ])
     const [itemNames, setItemNames] = useState([])
+    const [cartTotal, setCartTotal] = useState(0);
+    let user = JSON.parse(window.localStorage.getItem("user"));
+    console.log(user)
+    
 
     useEffect(() => {
         let nameArr = [];
@@ -47,7 +51,17 @@ export default function BasePage({ cart, setCart, notLoggedIn }) {
         })
         setItemNames(nameArr)
     }, [])
-    
+
+    useEffect(() => {
+        if (cart) {
+            let total = 0;
+            cart.map((item) => {
+                total += item.cartQuantity
+            })
+            setCartTotal(total);
+        }
+    }, [cart])
+
     return (
         <div>
             <div className="flex px-10 py-5">
@@ -56,7 +70,7 @@ export default function BasePage({ cart, setCart, notLoggedIn }) {
                     <h4 className="text-white font-semibold">Name Of Store</h4>
                 </div>
                 <div className="flex ml-8">
-                    <p className="text-white"> Current User: SOMEONE </p>
+                    <p className="text-white"> Current User: {user.name} </p>
                 </div>
                 <div className="absolute mr-8 right-0">
                     {notLoggedIn ?
@@ -80,7 +94,7 @@ export default function BasePage({ cart, setCart, notLoggedIn }) {
                         <Link to="/catalog"> Store Catalog </Link>
                     </div>
                     <div className="">
-                        <Link to="/cart"> Cart ({cart.length}) </Link>
+                        <Link to="/cart"> Cart ({cartTotal}) </Link>
                     </div>
                     <div></div>
                 </>
