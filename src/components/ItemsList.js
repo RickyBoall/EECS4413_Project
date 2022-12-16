@@ -136,9 +136,8 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                         <p> Quantity Available </p> 
                     </div>
                     <div className="col-span-2 border-b-4 border-black">
-                        <p> Quantity </p>
+                        <p className="ml-3"> Quantity </p>
                     </div>
-                    <button onClick={() => console.log(items)}> alsdan</button>
                     {items.map((item, index) => {
                         // console.log(item)
                         return (
@@ -156,7 +155,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                                     <p> {item.quantity} </p>
                                 </div>
                                 <div className="flex col-span-2">
-                                    <StyledTextField value={quantities[index]} onChange={(e) => changeQuantity(e.target.value, index)} />
+                                    <StyledTextField style={{ 'paddingTop': '5px' }} value={quantities[index]} onChange={(e) => changeQuantity(e.target.value, index)} />
                                     <div className="">
                                         <Button onClick={() => addToCart(item, index)} > Add to Cart</Button>
                                     </div>
