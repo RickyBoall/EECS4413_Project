@@ -40,8 +40,8 @@ export default function BasePage({ cart, setCart, notLoggedIn }) {
     ])
     const [itemNames, setItemNames] = useState([])
     const [cartTotal, setCartTotal] = useState(0);
-    let user = JSON.parse(window.localStorage.getItem("user"));
-    console.log(user)
+    const [user, setUser] = useState({});
+    // console.log(user)
     
 
     useEffect(() => {
@@ -49,6 +49,11 @@ export default function BasePage({ cart, setCart, notLoggedIn }) {
         items.map((item) => {
             nameArr.push(item.name)
         })
+        let user = JSON.parse(window.localStorage.getItem("user"));
+        if(user === null || user === "") {
+          } else {
+            setUser(user);
+          }
         setItemNames(nameArr)
     }, [])
 

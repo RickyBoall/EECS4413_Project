@@ -18,7 +18,7 @@ export default function LoginPage() {
             })
             
         const userList = a._embedded.userList;
-
+            console.log(userList)
         // user and pwd are the inputs
         for (let i = 0; i < userList.length; i++) {
             if (username === userList[i].username && password === userList[i].password) {
