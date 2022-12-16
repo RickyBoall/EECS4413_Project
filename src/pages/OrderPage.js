@@ -1,8 +1,21 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { BasePage } from "../components";
-import { Card, Row, Col, List, Descriptions, Form, Input, Button } from "antd";
+import {
+  Card,
+  Row,
+  Col,
+  List,
+  Descriptions,
+  Form,
+  Input,
+  Button,
+  Divider,
+} from "antd";
 import { Container } from "@mui/material";
+
+// import "../api/apiCalls";
+import { testItemCall, createOrder } from "../api/apiCalls";
 
 export default function OrderPage({ cart, setCart }) {
   // const [items, setItems] = useState(storeItems);
@@ -23,6 +36,7 @@ export default function OrderPage({ cart, setCart }) {
     //     }
     // })
     console.log(cart);
+    // console.log(JSON.parse(localStorage.getItem("user"))["id"]);
     setTotalPrices();
     // console.log(tempArr);
     // setQuantities(tempArr);
@@ -32,15 +46,27 @@ export default function OrderPage({ cart, setCart }) {
     let sum = 0;
 
     cart.map((item) => {
-      sum += item.price * item.cartQuantity;
+      sum += Math.round(item.price * item.cartQuantity * 100) / 100;
     });
 
     setTotalPrice(sum);
   };
 
-  const onFinish = (data) => {
+  const onFinish = async (data) => {
     //SEND DATA TO BACKEND FROM HERE
-    console.log(data);
+    // console.log(data);
+    // console.log();
+    let userID = JSON.parse(localStorage.getItem("user"))["id"];
+    let responseData = await createOrder(data, 9);
+
+    if (responseData != null) {
+      try {
+        // console.log(JSON.parse(responseData));
+        alert("Order Success! Order ID:" + responseData["id"]);
+      } catch (error) {
+        console.log("Order failed");
+      }
+    }
   };
 
   return (
@@ -61,7 +87,7 @@ export default function OrderPage({ cart, setCart }) {
 
               <Card
                 style={{ marginTop: "30px" }}
-                title="Billing Address"
+                title="Billing Information"
                 bordered={false}
               >
                 <Form
@@ -83,7 +109,7 @@ export default function OrderPage({ cart, setCart }) {
                       },
                     ]}
                   >
-                    <Input />
+                    <Input placeholder="40 Pond Street" />
                   </Form.Item>
 
                   <Form.Item
@@ -96,7 +122,7 @@ export default function OrderPage({ cart, setCart }) {
                       },
                     ]}
                   >
-                    <Input />
+                    <Input placeholder="Ontario" />
                   </Form.Item>
 
                   <Form.Item
@@ -109,7 +135,7 @@ export default function OrderPage({ cart, setCart }) {
                       },
                     ]}
                   >
-                    <Input />
+                    <Input placeholder="Canada" />
                   </Form.Item>
 
                   <Form.Item
@@ -122,11 +148,11 @@ export default function OrderPage({ cart, setCart }) {
                       },
                     ]}
                   >
-                    <Input />
+                    <Input placeholder="M3J1P3" />
                   </Form.Item>
 
                   <Form.Item
-                    label="phone number"
+                    label="Phone Number"
                     name="phone"
                     rules={[
                       {
@@ -135,7 +161,23 @@ export default function OrderPage({ cart, setCart }) {
                       },
                     ]}
                   >
-                    <Input />
+                    <Input placeholder="4169998888" />
+                  </Form.Item>
+
+                  <Divider />
+
+                  {/* CC Info: */}
+                  <Form.Item
+                    label="Credit Card"
+                    name="creditCard"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Credit Card!",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="input credit card #" />
                   </Form.Item>
 
                   <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -164,7 +206,8 @@ export default function OrderPage({ cart, setCart }) {
                           {item.cartQuantity}
                         </Descriptions.Item>
                         <Descriptions.Item label="Price">
-                          {item.cartQuantity * item.price}
+                          {Math.round(item.cartQuantity * item.price * 100) /
+                            100}
                         </Descriptions.Item>
                       </Descriptions>
                     </List.Item>
