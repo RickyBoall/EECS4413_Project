@@ -102,6 +102,57 @@ export default function ItemsList({ storeItems, cart, setCart }) {
         setItems([...newArr])
     }
 
+    const handleSubmitType = async (e) => {
+        e.preventDefault();
+        // console.log(e.typee);
+        var type = document.getElementById("type").value;
+        // console.log(nameValue);
+        fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/items/type/'+type)
+            .then(res => res.json())
+            .then(data => {
+            // a = data;
+            // console.log(data);
+            var itemList = [];
+            // console.log(data._embedded == null)
+            if (data._embedded != null) {
+                itemList = data._embedded.itemList;
+                console.log(itemList);
+            } 
+            // console.log(itemList == null);
+            // console.log(itemList);
+            setItems(itemList);
+            // // console.log(itemList);
+            // })
+            // console.log("hi");
+        })
+            
+        // const itemList = a._embedded.itemList;
+        // console.log(a);
+    }
+
+    const handleSubmitBrand = async (e) => {
+        e.preventDefault();
+        var brand = document.getElementById("brand").value;
+        fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/items/brand/'+brand)
+            .then(res => res.json())
+            .then(data => {
+            // a = data;
+            // console.log(data);
+            var itemList = [];
+            console.log(data._embedded == null)
+            if (data._embedded != null) {
+                itemList = data._embedded.itemList;
+                console.log(itemList);
+            } 
+            setItems(itemList);
+        })
+            // console.log(itemList == null);
+            // console.log(itemList);
+            
+        // const itemList = a._embedded.itemList;
+        // console.log(a);
+    }
+
     return (
         <div className="flex grid grid-cols-8">
             <div className="flex col-span-1 justify-end py-10">
@@ -114,6 +165,15 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                             {/* <FormControlLabel value="Brand?" /> */}
                         </RadioGroup>
                     </FormControl>
+                    <br/>
+                    <label style={{color:"red"}} htmlFor="type">Type:</label>
+                    <form onSubmit={handleSubmitType}>
+                        <input type="text" id="type" />
+                    </form>
+                    <label style={{color:"red"}} htmlFor="brand">Brand:</label>
+                    <form onSubmit={handleSubmitBrand}>
+                        <input type="text" id="brand" />
+                    </form>
                 </div>
             </div>
             <div className="flex col-span-7">
