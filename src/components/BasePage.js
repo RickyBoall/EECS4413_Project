@@ -101,6 +101,9 @@ export default function BasePage({ cart, setCart, notLoggedIn }) {
                     <div className="">
                         <Link to="/cart"> Cart ({cartTotal}) </Link>
                     </div>
+                    <div className="">
+                        <Link to="/order"> Order </Link>
+                    </div>
                     <div></div>
                 </>
                 }

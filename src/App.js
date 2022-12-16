@@ -2,7 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import {Home, CatalogPage, CartPage, LoginPage} from './pages';
+import {Home, CatalogPage, CartPage, LoginPage, OrderPage} from './pages';
+// import OrderPage from './pages/OrderPage'; //for some reason couldnt put it above
 // import Home from './pages/Home';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="*" element={<Home cart={cart} setCart={(e) => setCart(e)}/>} />
             <Route path="/catalog" element={<CatalogPage cart={cart} setCart={(e) => setCart(e)} />} />
             <Route path="/cart" element={<CartPage cart={cart} setCart={(e) => setCart(e)} />} />
+            <Route path="/order" element={<OrderPage cart={cart} setCart={(e) => setCart(e)} />} />
           </>
           :
           <Route path="*" element={<LoginPage/>} />        
