@@ -9,6 +9,7 @@ import {
   LoginPage,
   OrderPage,
   PreviousOrderPage,
+  SignUpPage
 } from "./pages";
 // import OrderPage from './pages/OrderPage'; //for some reason couldnt put it above
 // import Home from './pages/Home';
@@ -56,7 +57,10 @@ function App() {
             />
           </>
         ) : (
-          <Route path="*" element={<LoginPage />} />
+          <>
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="*" element={<LoginPage />} />
+          </>
         )}
       </Routes>
     </BrowserRouter>

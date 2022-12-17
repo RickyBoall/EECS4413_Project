@@ -50,6 +50,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
         let cartArr = [];
         let inArr = false;
         let error = false;
+        let inCartItem = {};
         if (quantities[index] > item.quantity) {
             alert('Error: Current quantity selected is above the amount available. Please check your cart and try again.');
             return
@@ -63,6 +64,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                 }
                 cartItem['cartQuantity'] += quantities[index];
                 cartArr.push(cartItem);
+                inCartItem = cartItem;
                 inArr = true;
             } else {
                 cartArr.push(cartItem);
@@ -72,10 +74,59 @@ export default function ItemsList({ storeItems, cart, setCart }) {
             if (inArr === false) {
                 item['cartQuantity'] = quantities[index];
                 setCart([...cartArr, item]);
+                saveToCart(item);
+
             } else {
+                // console.log(inCartItem);
+                saveToCart(inCartItem);
                 setCart([...cartArr]);
             }
         }
+    }
+
+    const saveToCart = async (item) => {
+        console.log(JSON.parse(window.localStorage.getItem('user')).shoppingCart.id);
+        console.log(item)
+        let localCart = JSON.parse(window.localStorage.getItem('user')).shoppingCart;
+        let cartId = localCart.id;
+        let userId = JSON.parse(window.localStorage.getItem('user')).id;
+        let data = {
+            quantity: item.cartQuantity
+        };
+        fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/shopping-cart-items/' + cartId + "/" + item.id, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data2 => {
+            // a = data;
+            // console.log(data);
+                // const itemList = data;
+                console.log(data2);
+                fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/users/' + userId).then(res => res.json())
+                .then(user => {
+                    console.log(user);
+                    localStorage.setItem('user', JSON.stringify(user));
+                })
+                // setItems([...itemList]);
+                // setLoading(false);
+            // console.log(itemList);
+        }).catch((e) => {
+            localCart.shoppingCartItems.map((cartItem) => {
+                if(cartItem.itemId === item.id) {
+                    fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/shopping-carts/' + cartId, {
+                        method: "DELETE",
+                        headers: { 'Content-Type': 'application/json' },
+                        // mode: "no-cors"
+                    }).then(res => res.json())
+                    .then(user => {
+                        console.log(user);
+                        localStorage.setItem('user', JSON.stringify(user));
+                    })
+                }
+            })
+        })
     }
 
     const changeQuantity = (quantity, index) => {
@@ -198,7 +249,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                     <div className="col-span-2 border-b-4 border-black">
                         <p> Quantity </p>
                     </div>
-                    <button onClick={() => console.log(items)}> alsdan</button>
+                    {/* <button onClick={() => console.log(items)}> alsdan</button> */}
                     {items.map((item, index) => {
                         // console.log(item)
                         return (

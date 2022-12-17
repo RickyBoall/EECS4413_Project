@@ -71,12 +71,12 @@ export default function OrderPage({ cart, setCart }) {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-800">
+    <div className="h-full flex flex-col bg-gray-800">
       <BasePage cart={cart} setCart={(e) => setCart(e)} />
       {/* <button className="text-white py-10" onClick={() => console.log(cart)}> CONSOLE LOG CART </button> */}
       {/* <ItemsList storeItems={items} cart={cart} setCart={(e) => setCart(e)} /> */}
 
-      <Container style={{ marginTop: "30px" }}>
+      <Container style={{ marginTop: "30px", paddingBottom: "40px" }}>
         <Link to="/allorders">
           <Button style={{ color: "white" }}>View Past Orders</Button>
         </Link>
