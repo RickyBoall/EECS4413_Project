@@ -78,10 +78,52 @@ export default function ItemsList({ storeItems, cart, setCart }) {
 
             } else {
                 // console.log(inCartItem);
-                saveToCart(inCartItem);
+                updateCart(inCartItem);
                 setCart([...cartArr]);
             }
         }
+    }
+
+    const clearCart = async () => {
+        let localCart = JSON.parse(window.localStorage.getItem('user')).shoppingCart;
+        let cartId = localCart.id;
+        console.log(cartId)
+        fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/shopping-carts/' + cartId, {
+                    method: "POST"
+                })
+                    .then(res => res.json())
+                    .then(data2 => { 
+                    })
+    }
+
+    const updateCart = async (item) => {
+        console.log(JSON.parse(window.localStorage.getItem('user')).shoppingCart.id);
+        console.log(item)
+        let localCart = JSON.parse(window.localStorage.getItem('user')).shoppingCart;
+        let cartId = localCart.id;
+        let userId = JSON.parse(window.localStorage.getItem('user')).id;
+        let data = {
+            quantity: item.cartQuantity
+        };
+
+        localCart.shoppingCartItems.map((cartItem) => {
+            if(cartItem.itemId === item.id) {
+                fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/shopping-cart-items/' + cartItem.id, {
+                    method: "PUT",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                    .then(res => res.json())
+                    .then(data2 => {
+                        // console.log(data2);
+                        fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/users/' + userId).then(res => res.json())
+                        .then(user => {
+                            console.log(user);
+                            localStorage.setItem('user', JSON.stringify(user));
+                        })
+                })
+            }
+        })
     }
 
     const saveToCart = async (item) => {
@@ -112,20 +154,6 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                 // setItems([...itemList]);
                 // setLoading(false);
             // console.log(itemList);
-        }).catch((e) => {
-            localCart.shoppingCartItems.map((cartItem) => {
-                if(cartItem.itemId === item.id) {
-                    fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/shopping-carts/' + cartId, {
-                        method: "DELETE",
-                        headers: { 'Content-Type': 'application/json' },
-                        // mode: "no-cors"
-                    }).then(res => res.json())
-                    .then(user => {
-                        console.log(user);
-                        localStorage.setItem('user', JSON.stringify(user));
-                    })
-                }
-            })
         })
     }
 
@@ -226,6 +254,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                         <input type="text" id="brand" />
                     </form>
                 </div>
+                <button onClick={() => clearCart()}> clear cart </button>
             </div>
             <div className="flex col-span-7">
                 <Modal open={modalOpen} onClose={() => setModalOpen(false)}>

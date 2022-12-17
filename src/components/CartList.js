@@ -5,11 +5,42 @@ import { Button, TextField, styled, Modal, RadioGroup, Radio, FormControl, FormL
 export default function CartList({ cart, setCart }) {
     const [userCart, setUserCart] = useState(cart);
 
-    const removeFromCart = (index) => {
+    const removeFromCart = async (index) => {
         let tempCart = [];
+        let removedItem = {};
         userCart.map((item, cartIndex) => {
             if (index != cartIndex) {
                 tempCart.push(item);
+            } else {
+                removedItem = item
+            }
+        })
+        // console.log(removedItem)
+
+        let localCart = JSON.parse(window.localStorage.getItem('user')).shoppingCart;
+        let cartId = localCart.id;
+        let userId = JSON.parse(window.localStorage.getItem('user')).id;
+        // console.log(cartId)
+        localCart.shoppingCartItems.map((cartItem) => {
+            if(cartItem.itemId === removedItem.id) {
+                fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/shopping-cart-items/' +  cartItem.id, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                    .then(res => res.json())
+                    .then(data2 => {
+                        fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/users/' + userId).then(res => res.json())
+                        .then(user => {
+                            console.log(user);
+                            localStorage.setItem('user', JSON.stringify(user));
+                        })
+                }).catch(e => {
+                    fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/users/' + userId).then(res => res.json())
+                        .then(user => {
+                            console.log(user);
+                            localStorage.setItem('user', JSON.stringify(user));
+                        })
+                })
             }
         })
         setCart(tempCart);
