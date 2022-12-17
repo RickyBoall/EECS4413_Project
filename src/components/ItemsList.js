@@ -259,7 +259,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
             <div className="flex col-span-7">
                 <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
                     <div className="flex bg-gray-400/80 items-center justify-center w-[50vw] h-[30vh] mx-auto my-48">
-                    <p> PUT ITEM INFO HERE: {selectedItem.name} </p>
+                        <p className="text-3xl"> {selectedItem.name} </p>
                     </div>
                 </Modal>
                 <div className="flex grid grid-cols-8 py-10 text-zinc-300">

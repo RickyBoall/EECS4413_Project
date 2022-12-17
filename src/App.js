@@ -19,8 +19,39 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    let user = window.localStorage.getItem("user");
-    // console.log(user);
+    let tempCart = [];
+    let user = JSON.parse(window.localStorage.getItem("user"));
+    const getItems = async () => {
+      fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/items')
+          .then(res => res.json())
+          .then(data => {
+          // a = data;
+          console.log(data);
+              const items = data._embedded.itemList;
+              // console.log(itemList);
+              
+              // console.log(user.shoppingCart);
+              user.shoppingCart.shoppingCartItems.map((item) => {
+                items.map((allItem) => {
+                  console.log(item.itemId, allItem.id)
+                  if(allItem.id === item.itemId) {
+                    allItem['cartQuantity'] = item.quantity
+                    tempCart.push(allItem)
+                  }
+                })
+              })
+              setCart(tempCart)
+              // setItems([...itemList]);
+              // setLoading(false);
+          // console.log(itemList);
+          })
+          
+      // const itemList = a._embedded.itemList;
+      // console.log(a);
+    }
+    getItems();
+    
+    // console.log(tempCart);
     if (user === null || user === "") {
       setLoggedIn(false);
     } else {

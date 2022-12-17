@@ -64,6 +64,7 @@ export default function OrderPage({ cart, setCart }) {
       try {
         // console.log(JSON.parse(responseData));
         alert("Order Success! Order ID:" + responseData["id"]);
+        window.location.reload();
       } catch (error) {
         console.log("Order failed");
       }

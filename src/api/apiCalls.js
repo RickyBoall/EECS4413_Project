@@ -1,7 +1,7 @@
-// const backend =
-//   "http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com";
+const backend =
+  "http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com";
 
-const backend = "http://localhost:8080/demo";
+// const backend = "http://localhost:8080/demo";
 
 // export const orderPage = async () => {
 //   return 5;
@@ -48,9 +48,19 @@ export const createOrder = async (data, userID) => {
       // console.log(data);
       // setItems([...itemList]);
       // setLoading(false);
+      updateUser();
       return data;
       // console.log(itemList);
     });
-};
 
+  };
+  
+  export const updateUser = async () => {
+    let userId = JSON.parse(window.localStorage.getItem('user')).id;
+    fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/users/' + userId).then(res => res.json())
+      .then(user => {
+          // console.log(user);
+          localStorage.setItem('user', JSON.stringify(user));
+      })
+  };
 // export const getOrders = async (userID)
