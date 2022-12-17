@@ -27,6 +27,14 @@ const StyledTextField = styled(TextField) ({
     }
 })
 
+const icons = {
+    tablet: "https://cdn-icons-png.flaticon.com/512/0/319.png",
+    book: "https://uxwing.com/wp-content/themes/uxwing/download/education-school/read-book-icon.png",
+    tv: "https://media.istockphoto.com/id/1342073605/vector/monitor-icon-modern-tv-icon.jpg?b=1&s=170667a&w=0&k=20&c=kUgWgcgznjomXpdLzPijn2sjgVUoDRF32lJlJTXv-vk=",
+    headphones: "https://cdn-icons-png.flaticon.com/512/27/27130.png",
+    phone: "https://cdn-icons-png.flaticon.com/512/0/191.png"
+}
+
 export default function ItemsList({ storeItems, cart, setCart }) {
     // console.log(storeItems)
     const [items, setItems] = useState(storeItems);
@@ -213,13 +221,17 @@ export default function ItemsList({ storeItems, cart, setCart }) {
         // console.log(a);
     }
 
-    const handleSubmitBrand = async (e) => {
-        e.preventDefault();
+    const handleSubmitBrand = async () => {
+        // e.preventDefault();
         var brand = document.getElementById("brand").value;
         let tempItems = items;
         let filterItems = [];
-        tempItems.map((item) => {
-            if(item.brand === brand){
+        if (brand === "" || brand === " ") {
+            setItems(originalItemsArr)
+            return
+        }
+        originalItemsArr.map((item) => {
+            if(item.brand.toLowerCase().includes(brand.toLowerCase())){
                 filterItems.push(item);
             }
         })
@@ -255,7 +267,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
 
     return (
         <div className="flex grid grid-cols-8">
-            <div className="flex col-span-1 justify-end py-10 -mx-10">
+            <div className="flex col-span-1 justify-end py-10 -mx-28">
                 <div className="justify-center py-3">
                     <FormControl>
                         <FormLabel> <p className="text-white border-b-4 border-black">Filters</p> </FormLabel>
@@ -271,25 +283,24 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                         <input type="text" id="type" />
                     </form> */}
                     <label style={{color:"white"}} htmlFor="brand">Brand:</label>
-                    <form onSubmit={handleSubmitBrand}>
-                        <input type="text" id="brand" />
-                    </form>
+                        <input type="text" id="brand" onChange={() => handleSubmitBrand()} />
                 </div>
                 {/* <button onClick={() => clearCart()}> clear cart </button> */}
             </div>
             <div className="flex col-span-7">
                 <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-                    <div className="flex bg-gray-400/95 items-center justify-center w-[50vw] h-[30vh] mx-auto my-48">
+                    <div className="flex rounded-md bg-gray-400/95 items-center justify-center w-[50vw] h-[30vh] mx-auto my-48">
                         <p className="text-3xl"> {selectedItem.name} </p>
                     </div>
                 </Modal>
                 <Modal open={modalOpenReviews} onClose={() => setModalOpenReviews(false)}>
                     <ViewReviews item={selectedItem} />
                 </Modal>
-                <div className="flex grid grid-cols-8 py-10 text-zinc-300">
-                    <div className="flex col-start-2 col-span-7 overflow-hidden">
+                <div className="flex grid grid-cols-8 py-10 text-zinc-300 max-h-[80vh] overflow-hidden">
+                    <div className="flex col-start-2 col-span-7 overflow-y-scroll overflow-hidden">
                         <List
-                            grid={{ gutter: 16, column: 3 }}
+                            style={{ 'maxHeight': '90vh' }}
+                            grid={items.length > 2 ? { gutter: 16, column: 3 } : { gutter: 16, column: 2 }}
                             dataSource={items}
                             renderItem={(item, index) => {
                                 // console.log(item) 
@@ -299,8 +310,8 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                                         <div className="flex grid grid-cols-4">
                                             <div className="flex col-span-1">
                                                 <div className="flex grid grid-cols-1">
-                                                    <img src="https://cdn-icons-png.flaticon.com/512/1718/1718406.png" style={{ minHeight: "92px", minWidth: "92px" }}/>
-                                                    {/* <p> {item.type} </p> */}
+                                                    <img src={icons[item.type.toLowerCase()]} style={{ minHeight: "92px", minWidth: "92px" }}/>
+                                                    <p> {item.type} </p>
                                                 </div>
                                             </div>
                                             <div className="flex col-start-3">

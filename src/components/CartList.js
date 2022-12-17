@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, TextField, styled, Modal, RadioGroup, Radio, FormControl, FormLabel, FormControlLabel } from "@mui/material";
+import { List, Avatar, Card } from 'antd';
 
 
 export default function CartList({ cart, setCart }) {
@@ -72,59 +73,22 @@ export default function CartList({ cart, setCart }) {
     }
     
     return (
-        <div className="flex grid grid-cols-4">
-            {/* <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-                <div className="flex bg-gray-400/80 items-center justify-center w-[50vw] h-[30vh] mx-auto my-48">
-                <p> PUT ITEM INFO HERE: {selectedItem.name} </p>
-                </div>
-            </Modal> */}
-            {/* <button onClick={() => test()}> oasndkjsan </button> */}
-            <div className="flex grid grid-cols-8 py-10 text-zinc-300 col-start-2 col-span-2">
-                <div className="col-start-2 col-span-1 border-b-4 border-black">
-                    <p> Name </p> 
-                </div>
-                <div className="col-start-3 col-span-1 border-b-4 border-black">
-                    <p> Type </p> 
-                </div>
-                <div className="col-start-4 col-span-1 border-b-4 border-black">
-                    <p> Price </p> 
-                </div>
-                <div className="col-start-5 col-span-1 border-b-4 border-black">
-                    <p> Quantity </p> 
-                </div>
-                <div className="col-start-6 col-span-1 border-b-4 border-black">
-                    <p> Remove </p> 
-                </div>
-                
-                {cart.map((item, index) => {
-                    // console.log(item)
-                    return (
-                        <>
-                            <div className="col-start-2 col-span-1 py-4">
-                                {/* <button onClick={() => {setSelectedItem(item); setModalOpen(true)}}> {item.name} </button>  */}
-                                <p> {item.name} </p>
-                            </div>
-                            <div className="col-start-3 col-span-1 py-4">
-                                <p> {item.type} </p> 
-                            </div>
-                            <div className="col-start-4 col-span-1 py-4">
-                                <p> {item.price} </p> 
-                            </div>
-                            <div className="col-start-5 col-span-1 py-4">
-                                <p> {item.cartQuantity} </p>
-                            </div>
-                            <div className="flex col-span-2">
-                                {/* <StyledTextField style={{ 'paddingTop': '5px' }} value={quantities[index]} onChange={(e) => changeQuantity(e.target.value, index)} />
-                                <div className="">
-                            </div> */}
-                                <Button onClick={() => removeFromCart(index)} > X </Button>
-
-                            </div>
-                        </>
-                    )
-                })}
-
-            </div>
+        <div className="flex items-center justify-center py-12">
+            <Card  title="Cart" style={{ minWidth: '30vw'}}>
+                <List
+                    dataSource={cart}
+                    renderItem={(item, index) => (
+                        <List.Item key={index}>
+                        <List.Item.Meta
+                            avatar={<Avatar src={"https://cdn-icons-png.flaticon.com/512/1718/1718406.png"} />}
+                            title={<p> {item.name} </p>}
+                            description={<p>Qty: {item.cartQuantity} <em className="absolute right-0 mr-32"> ${item.price} </em> </p>}
+                        />
+                            <Button onClick={() => removeFromCart(index)} > X </Button>
+                        </List.Item>
+                    )}
+                    />
+            </Card>
         </div>
     )
 }

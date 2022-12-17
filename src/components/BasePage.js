@@ -76,16 +76,16 @@ export default function BasePage({ cart, setCart, notLoggedIn }) {
     <div>
       <div className="flex px-10 py-5">
         <div className="flex">
-          <img
-            src="https://i.kym-cdn.com/photos/images/facebook/001/916/585/791.jpg"
+          {/* <img
+            src="https://www.creativefabrica.com/wp-content/uploads/2018/08/Bussiness-swoosh-generic-company-logo-by-Mansel-Brist-1.jpg"
             height={64}
             width={64}
             className="pr-4"
-          />
-          <h4 className="text-white font-semibold">Name Of Store</h4>
+          /> */}
+          <h4 className="text-white font-semibold">EECS 4313 Store</h4>
         </div>
-        <div className="flex ml-8">
-          <p className="text-white"> Current User: {user.name} </p>
+        <div className="flex ml-20">
+          <p className="text-white"> Logged in as: {user.name} </p>
         </div>
         <div className="absolute mr-8 right-0">
           {notLoggedIn ? null : (

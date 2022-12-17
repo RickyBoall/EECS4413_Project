@@ -14,7 +14,7 @@ export default function ViewReviews({item}) {
     }
 
     return (
-        <div className="flex bg-gray-400/95 items-center justify-center w-[70vw] h-[90vh] max-h-[90vh] mx-auto my-12 grid grid-cols-1">
+        <div className="flex rounded-md bg-gray-400/95 items-center justify-center w-[70vw] h-[90vh] max-h-[90vh] mx-auto my-12 grid grid-cols-1">
             <p> Reviews: </p>
             {item.reviews.length === 0 ?
             <p> No Reviews</p>
