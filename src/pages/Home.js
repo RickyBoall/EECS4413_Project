@@ -71,60 +71,68 @@ export default function Home({ cart, setCart }) {
         <Card>
           <Row>
             <Col span={7} style={{ paddingRight: "50px" }}>
-              <Card
-                hoverable
-                style={{
-                  width: 240,
-                }}
-                cover={
-                  <img
-                    alt="harry"
-                    style={{
-                      width: "auto",
-                      height: "300px",
-                      overflow: "hidden",
-                      alignContent: "center",
-                      alignItems: "center",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      paddingLeft: "7px",
-                      paddingRight: "7px",
-                      marginTop: "8px",
-                    }}
-                    src="https://m.media-amazon.com/images/I/51StPSSsneL.jpg"
+              <Link to="/catalog">
+                <Card
+                  hoverable
+                  style={{
+                    width: 240,
+                  }}
+                  cover={
+                    <img
+                      alt="harry"
+                      style={{
+                        width: "auto",
+                        height: "300px",
+                        overflow: "hidden",
+                        alignContent: "center",
+                        alignItems: "center",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        paddingLeft: "7px",
+                        paddingRight: "7px",
+                        marginTop: "8px",
+                      }}
+                      src="https://m.media-amazon.com/images/I/51StPSSsneL.jpg"
+                    />
+                  }
+                >
+                  <Meta
+                    title="Books"
+                    description="Harry potter best releases!"
                   />
-                }
-              >
-                <Meta title="Books" description="Harry potter best releases!" />
-              </Card>
+                </Card>
+              </Link>
             </Col>
+
             <Col span={7} style={{ paddingRight: "50px" }}>
-              <Card
-                hoverable
-                style={{
-                  width: 240,
-                }}
-                cover={
-                  <img
-                    alt="harry"
-                    style={{
-                      width: "auto",
-                      height: "300px",
-                      overflow: "hidden",
-                      alignContent: "center",
-                      alignItems: "center",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      paddingLeft: "7px",
-                      paddingRight: "7px",
-                      marginTop: "8px",
-                    }}
-                    src="https://videotron.com/sites/default/files/styles/original_large/public/mobility_product/iPhone%2014%20Pro%20Space%20Black_0.webp?itok=fLIWY65Bg"
-                  />
-                }
-              >
-                <Meta title="Phones" description="Get the new Iphone14!" />
-              </Card>
+              <Link to="/catalog">
+                <Card
+                  hoverable
+                  style={{
+                    width: 240,
+                  }}
+                  cover={
+                    <img
+                      alt="harry"
+                      style={{
+                        width: "auto",
+                        height: "300px",
+                        overflow: "hidden",
+                        alignContent: "center",
+                        alignItems: "center",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        paddingLeft: "7px",
+                        paddingRight: "7px",
+                        marginTop: "8px",
+                      }}
+                      src="https://videotron.com/sites/default/files/styles/original_large/public/mobility_product/iPhone%2014%20Pro%20Space%20Black_0.webp?itok=fLIWY65Bg"
+                    />
+                  }
+                >
+                  <Meta title="Phones" description="Get the new Iphone14!" />
+                </Card>
+              </Link>
             </Col>
             <Col span={10}>
               <Card
