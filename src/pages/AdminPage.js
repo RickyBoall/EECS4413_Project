@@ -14,7 +14,7 @@ import {
   Table,
 } from "antd";
 import { Container } from "@mui/material";
-
+// .
 // import "../api/apiCalls";
 import { getEvents } from "../api/apiCalls";
 
@@ -83,12 +83,12 @@ export default function AdminPage({ cart, setCart }) {
 
   if (isAdmin) {
     return (
-      <div className="h-screen flex flex-col bg-gray-800">
+      <div className="h-full flex flex-col bg-gray-800">
         <BasePage cart={cart} setCart={(e) => setCart(e)} />
         {/* <button className="text-white py-10" onClick={() => console.log(cart)}> CONSOLE LOG CART </button> */}
         {/* <ItemsList storeItems={items} cart={cart} setCart={(e) => setCart(e)} /> */}
 
-        <Container style={{ marginTop: "30px" }}>
+        <Container style={{ marginTop: "30px", marginBottom: "50px" }}>
           <div className="site-card-wrapper" style={{ marginTop: "30px" }}>
             <Card>
               <strong>Total Revenue: ${totalRev}</strong>
