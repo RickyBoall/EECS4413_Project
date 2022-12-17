@@ -4,4 +4,5 @@ export { default as CartPage } from "./CartPage";
 export { default as LoginPage } from "./LoginPage";
 export { default as OrderPage } from "./OrderPage";
 export { default as PreviousOrderPage } from "./PreviousOrderPage";
+export { default as AdminPage } from "./AdminPage";
 export { default as SignUpPage } from "./SignUpPage";

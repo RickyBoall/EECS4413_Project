@@ -32,8 +32,6 @@ export const testItemCall = async () => {
 export const createOrder = async (data, userID) => {
   let responseData;
   data.date = new Date().toLocaleString();
-  //   console.log(userID);
-  //   console.log(data);
   //   console.log(new Date().toLocaleString()); //e.x out 12/16/2022, 2:53:00 PM
   return fetch(backend + "/orders/" + userID, {
     method: "POST",
@@ -50,7 +48,6 @@ export const createOrder = async (data, userID) => {
       // setLoading(false);
       updateUser();
       return data;
-      // console.log(itemList);
     });
 
   };
@@ -64,3 +61,15 @@ export const createOrder = async (data, userID) => {
       })
   };
 // export const getOrders = async (userID)
+
+export const getEvents = async () => {
+  return fetch(backend + "/events", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
+};
