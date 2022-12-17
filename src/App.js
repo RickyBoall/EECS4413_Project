@@ -9,6 +9,7 @@ import {
   LoginPage,
   OrderPage,
   PreviousOrderPage,
+  AdminPage,
 } from "./pages";
 // import OrderPage from './pages/OrderPage'; //for some reason couldnt put it above
 // import Home from './pages/Home';
@@ -53,6 +54,10 @@ function App() {
               element={
                 <PreviousOrderPage cart={cart} setCart={(e) => setCart(e)} />
               }
+            />
+            <Route
+              path="/admin"
+              element={<AdminPage cart={cart} setCart={(e) => setCart(e)} />}
             />
           </>
         ) : (

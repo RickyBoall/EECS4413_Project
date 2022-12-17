@@ -1,7 +1,7 @@
-// const backend =
-//   "http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com";
+const backend =
+  "http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com";
 
-const backend = "http://localhost:8080/demo";
+// const backend = "http://localhost:8080/demo";
 
 // export const orderPage = async () => {
 //   return 5;
@@ -32,8 +32,6 @@ export const testItemCall = async () => {
 export const createOrder = async (data, userID) => {
   let responseData;
   data.date = new Date().toLocaleString();
-  //   console.log(userID);
-  //   console.log(data);
   //   console.log(new Date().toLocaleString()); //e.x out 12/16/2022, 2:53:00 PM
   return fetch(backend + "/orders/" + userID, {
     method: "POST",
@@ -43,14 +41,20 @@ export const createOrder = async (data, userID) => {
     .then((res) => res.json())
     .then((data) => {
       responseData = data;
-      // console.log(data);
-      // const itemList = data;
-      // console.log(data);
-      // setItems([...itemList]);
-      // setLoading(false);
       return data;
-      // console.log(itemList);
     });
 };
 
 // export const getOrders = async (userID)
+
+export const getEvents = async () => {
+  return fetch(backend + "/events", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
+};
