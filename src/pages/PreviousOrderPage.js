@@ -78,7 +78,7 @@ export default function PreviousOrderPage({ cart, setCart }) {
   //   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-800">
+    <div className="h-full flex flex-col bg-gray-800 pb-20">
       <BasePage cart={cart} setCart={(e) => setCart(e)} />
       {/* <button className="text-white py-10" onClick={() => console.log(cart)}> CONSOLE LOG CART </button> */}
       {/* <ItemsList storeItems={items} cart={cart} setCart={(e) => setCart(e)} /> */}

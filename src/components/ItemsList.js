@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button, TextField, styled, Modal, RadioGroup, Radio, FormControl, FormLabel, FormControlLabel } from "@mui/material";
+import { Card, List, Rate } from 'antd';
+import 'antd/dist/reset.css';
+import ViewReviews from "./ViewReviews";
 
 const StyledTextField = styled(TextField) ({
     '& label.Mui-focused': {
@@ -29,6 +32,7 @@ export default function ItemsList({ storeItems, cart, setCart }) {
     const [items, setItems] = useState(storeItems);
     const [quantities, setQuantities] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpenReviews, setModalOpenReviews] = useState(false);
     const [selectedItem, setSelectedItem] = useState({});
     const originalItemsArr = storeItems;
 
@@ -212,19 +216,27 @@ export default function ItemsList({ storeItems, cart, setCart }) {
     const handleSubmitBrand = async (e) => {
         e.preventDefault();
         var brand = document.getElementById("brand").value;
-        fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/items/brand/'+brand)
-            .then(res => res.json())
-            .then(data => {
-            // a = data;
-            // console.log(data);
-            var itemList = [];
-            console.log(data._embedded == null)
-            if (data._embedded != null) {
-                itemList = data._embedded.itemList;
-                console.log(itemList);
-            } 
-            setItems(itemList);
+        let tempItems = items;
+        let filterItems = [];
+        tempItems.map((item) => {
+            if(item.brand === brand){
+                filterItems.push(item);
+            }
         })
+        setItems(filterItems);
+        // fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/items/brand/'+brand)
+        //     .then(res => res.json())
+        //     .then(data => {
+        //     // a = data;
+        //     // console.log(data);
+        //     var itemList = [];
+        //     console.log(data._embedded == null)
+        //     if (data._embedded != null) {
+        //         itemList = data._embedded.itemList;
+        //         console.log(itemList);
+        //     } 
+        //     setItems(itemList);
+        // })
             // console.log(itemList == null);
             // console.log(itemList);
             
@@ -232,9 +244,18 @@ export default function ItemsList({ storeItems, cart, setCart }) {
         // console.log(a);
     }
 
+    const calculateRating = (item) => {
+        let rating = 0;
+        item.reviews.map((review) => {
+            rating += review.rating
+        })
+        rating = rating / item.reviews.length
+        return rating
+    }
+
     return (
         <div className="flex grid grid-cols-8">
-            <div className="flex col-span-1 justify-end py-10">
+            <div className="flex col-span-1 justify-end py-10 -mx-10">
                 <div className="justify-center py-3">
                     <FormControl>
                         <FormLabel> <p className="text-white border-b-4 border-black">Filters</p> </FormLabel>
@@ -245,66 +266,68 @@ export default function ItemsList({ storeItems, cart, setCart }) {
                         </RadioGroup>
                     </FormControl>
                     <br/>
-                    <label style={{color:"red"}} htmlFor="type">Type:</label>
+                    {/* <label style={{color:"red"}} htmlFor="type">Type:</label>
                     <form onSubmit={handleSubmitType}>
                         <input type="text" id="type" />
-                    </form>
-                    <label style={{color:"red"}} htmlFor="brand">Brand:</label>
+                    </form> */}
+                    <label style={{color:"white"}} htmlFor="brand">Brand:</label>
                     <form onSubmit={handleSubmitBrand}>
                         <input type="text" id="brand" />
                     </form>
                 </div>
-                <button onClick={() => clearCart()}> clear cart </button>
+                {/* <button onClick={() => clearCart()}> clear cart </button> */}
             </div>
             <div className="flex col-span-7">
                 <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-                    <div className="flex bg-gray-400/80 items-center justify-center w-[50vw] h-[30vh] mx-auto my-48">
+                    <div className="flex bg-gray-400/95 items-center justify-center w-[50vw] h-[30vh] mx-auto my-48">
                         <p className="text-3xl"> {selectedItem.name} </p>
                     </div>
                 </Modal>
+                <Modal open={modalOpenReviews} onClose={() => setModalOpenReviews(false)}>
+                    <ViewReviews item={selectedItem} />
+                </Modal>
                 <div className="flex grid grid-cols-8 py-10 text-zinc-300">
-                    <div className="col-start-2 col-span-1 border-b-4 border-black">
-                        <p> Name </p> 
-                    </div>
-                    <div className="col-start-3 col-span-1 border-b-4 border-black">
-                        <p> Type </p> 
-                    </div>
-                    <div className="col-start-4 col-span-1 border-b-4 border-black">
-                        <p> Price </p> 
-                    </div>
-                    <div className="col-start-5 col-span-1 border-b-4 border-black">
-                        <p> Quantity Available </p> 
-                    </div>
-                    <div className="col-span-2 border-b-4 border-black">
-                        <p> Quantity </p>
-                    </div>
-                    {/* <button onClick={() => console.log(items)}> alsdan</button> */}
-                    {items.map((item, index) => {
-                        // console.log(item)
-                        return (
-                            <>
-                                <div className="col-start-2 col-span-1 py-4">
-                                    <button onClick={() => {setSelectedItem(item); setModalOpen(true)}}> {item.name} </button> 
-                                </div>
-                                <div className="col-start-3 col-span-1 py-4">
-                                    <p> {item.type} </p> 
-                                </div>
-                                <div className="col-start-4 col-span-1 py-4">
-                                    <p> {item.price} </p> 
-                                </div>
-                                <div className="col-start-5 col-span-1 py-4">
-                                    <p> {item.quantity} </p>
-                                </div>
-                                <div className="flex col-span-2">
-                                    <StyledTextField value={quantities[index]} onChange={(e) => changeQuantity(e.target.value, index)} />
-                                    <div className="">
-                                        <Button onClick={() => addToCart(item, index)} > Add to Cart</Button>
-                                    </div>
+                    <div className="flex col-start-2 col-span-7 overflow-hidden">
+                        <List
+                            grid={{ gutter: 16, column: 3 }}
+                            dataSource={items}
+                            renderItem={(item, index) => {
+                                // console.log(item) 
+                                return (
+                                    <List.Item>
+                                        <Card title={<><p className="font-bold -mb-1"> <button onClick={() => {setSelectedItem(item); setModalOpen(true)}}> {item.name} </button></p>  <em className="absolute right-0 mr-4 -mt-2"> ({item.brand}) </em> </>} bordered={false} style={{ width: 300, Left: '2px' }}>
+                                        <div className="flex grid grid-cols-4">
+                                            <div className="flex col-span-1">
+                                                <div className="flex grid grid-cols-1">
+                                                    <img src="https://cdn-icons-png.flaticon.com/512/1718/1718406.png" style={{ minHeight: "92px", minWidth: "92px" }}/>
+                                                    {/* <p> {item.type} </p> */}
+                                                </div>
+                                            </div>
+                                            <div className="flex col-start-3">
+                                                <div className="flex grid grid-cols-1">
+                                                    <p> Qty: {item.quantity} </p>
+                                                    <p className="flex -mb-1"> <button onClick={() => {setSelectedItem(item);setModalOpenReviews(true)}}> Reviews({item.reviews.length}) </button> </p>
+                                                    <Rate style={{ "display": 'flex', "paddingBottom": '10px' }} disabled value={calculateRating(item)} />
+                                                </div>
+                                            </div>
+                                            <div className="flex col-start-4">
+                                                <p> ${item.price} </p>
+                                            </div>
+                                        </div>
+                                        <div className="flex col-span-2">
+                                            <TextField value={quantities[index]} onChange={(e) => changeQuantity(e.target.value, index)} />
+                                            <div className="">
+                                                <Button onClick={() => addToCart(item, index)} > Add to Cart</Button>
+                                            </div>
 
-                                </div>
-                            </>
-                        )
-                    })}
+                                        </div>
+                                        </Card>
+                                    </List.Item>
+                                )
+
+                            }}
+                        />
+                    </div>
 
                 </div>
             </div>

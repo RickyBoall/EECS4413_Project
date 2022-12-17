@@ -46,13 +46,13 @@ export const createOrder = async (data, userID) => {
       // console.log(data);
       // setItems([...itemList]);
       // setLoading(false);
-      updateUser();
+      updateUserLocal();
       return data;
     });
 
   };
   
-  export const updateUser = async () => {
+  export const updateUserLocal = async () => {
     let userId = JSON.parse(window.localStorage.getItem('user')).id;
     fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/users/' + userId).then(res => res.json())
       .then(user => {
@@ -72,4 +72,18 @@ export const getEvents = async () => {
       console.log(data);
       return data;
     });
+};
+
+export const setRating = async (itemId, data) => {
+  // let userId = JSON.parse(window.localStorage.getItem('user')).id;
+  fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/reviews/' + itemId, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+    
+  }).then(res => res.json())
+    .then(user => {
+        // console.log(user);
+        return
+    })
 };
