@@ -22,7 +22,7 @@ const contentStyle = {
   color: "#fff",
   lineHeight: "300px",
   textAlign: "center",
-  fontSize: "40px",
+  fontSize: "50px",
   //   background: "#364d79",
   backgroundImage:
     "url(https://images.squarespace-cdn.com/content/v1/5a6a4f5ae45a7c05292b69eb/1518194667931-SQAPLQ8NSEBACNB08QXC/065-ZAS+Bergeron+Centre+York-Edit.jpg?format=1500w)",
@@ -33,7 +33,7 @@ const contentStyle2 = {
   color: "#fff",
   lineHeight: "300px",
   textAlign: "center",
-  fontSize: "40px",
+  fontSize: "50px",
   //   background: "#364d79",
 
   backgroundImage:
@@ -45,7 +45,7 @@ const contentStyle3 = {
   color: "#fff",
   lineHeight: "300px",
   textAlign: "center",
-  fontSize: "40px",
+  fontSize: "50px",
   //   background: "#364d79",
   backgroundImage:
     "url(https://thumbs.dreamstime.com/b/smartphone-headphones-office-accessories-yellow-background-modern-lifestyle-business-flat-lay-banner-copy-space-176172776.jpg)",
