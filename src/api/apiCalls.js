@@ -32,6 +32,7 @@ export const testItemCall = async () => {
 export const createOrder = async (data, userID) => {
   let responseData;
   data.date = new Date().toLocaleString();
+  data.creditCard = "";
   //   console.log(new Date().toLocaleString()); //e.x out 12/16/2022, 2:53:00 PM
   return fetch(backend + "/orders/" + userID, {
     method: "POST",
@@ -49,17 +50,20 @@ export const createOrder = async (data, userID) => {
       updateUserLocal();
       return data;
     });
+};
 
-  };
-  
-  export const updateUserLocal = async () => {
-    let userId = JSON.parse(window.localStorage.getItem('user')).id;
-    fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/users/' + userId).then(res => res.json())
-      .then(user => {
-          // console.log(user);
-          localStorage.setItem('user', JSON.stringify(user));
-      })
-  };
+export const updateUserLocal = async () => {
+  let userId = JSON.parse(window.localStorage.getItem("user")).id;
+  fetch(
+    "http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/users/" +
+      userId
+  )
+    .then((res) => res.json())
+    .then((user) => {
+      // console.log(user);
+      localStorage.setItem("user", JSON.stringify(user));
+    });
+};
 // export const getOrders = async (userID)
 
 export const getEvents = async () => {
@@ -76,14 +80,18 @@ export const getEvents = async () => {
 
 export const setRating = async (itemId, data) => {
   // let userId = JSON.parse(window.localStorage.getItem('user')).id;
-  fetch('http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/reviews/' + itemId, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-    
-  }).then(res => res.json())
-    .then(user => {
-        // console.log(user);
-        return
-    })
+  fetch(
+    "http://springboot-env.eba-xqpdar45.us-east-1.elasticbeanstalk.com/reviews/" +
+      itemId,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }
+  )
+    .then((res) => res.json())
+    .then((user) => {
+      // console.log(user);
+      return;
+    });
 };
